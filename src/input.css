@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+#game-board {
+  @apply border-[3px] border-solid border-black bg-red-500;
+}
