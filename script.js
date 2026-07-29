@@ -13,6 +13,7 @@ const UNIT_SIZE = 25; //px
 const SPEED = 75;
 
 let running = false;
+let tickTimeout;
 let xVelocity = UNIT_SIZE;
 let yVelocity = 0;
 let foodX;
@@ -40,7 +41,7 @@ function gameStart() {
 }
 function nextTick() {
   if (running) {
-    setTimeout(() => {
+    tickTimeout = setTimeout(() => {
       clearBoard();
       drawFood();
       moveSnake();
@@ -154,6 +155,7 @@ function displayGameOver() {
   running = false;
 }
 function resetGame() {
+  clearTimeout(tickTimeout);
   score = 0;
   xVelocity = UNIT_SIZE;
   yVelocity = 0;
