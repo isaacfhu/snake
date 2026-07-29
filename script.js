@@ -9,6 +9,7 @@ const snakeColor = "lightgreen";
 const snakeBorder = "black";
 const foodColor = "red";
 const UNIT_SIZE = 25; //px
+const SPEED = 75;
 
 let running = false;
 let xVelocity = UNIT_SIZE;
@@ -45,7 +46,7 @@ function nextTick() {
       drawSnake();
       checkGameOver();
       nextTick();
-    }, 75);
+    }, SPEED);
   } else {
     displayGameOver();
   }
@@ -67,7 +68,21 @@ function drawFood() {
   ctx.fillStyle = foodColor;
   ctx.fillRect(foodX, foodY, UNIT_SIZE, UNIT_SIZE);
 }
-function moveSnake() {}
+function moveSnake() {
+  const head = {
+    x: snake[0].x + xVelocity,
+    y: snake[0].y + yVelocity,
+  };
+  snake.unshift(head);
+  // if food eaten
+  if (snake[0].x == foodX && snake[0].y == foodY) {
+    score += 1;
+    scoreText.textContent = score;
+    createFood();
+  } else {
+    snake.pop();
+  }
+}
 function drawSnake() {
   ctx.fillStyle = snakeColor;
   ctx.strokeStyle = snakeBorder;
@@ -76,7 +91,39 @@ function drawSnake() {
     ctx.strokeRect(snakePart.x, snakePart.y, UNIT_SIZE, UNIT_SIZE);
   });
 }
-function changeDirection() {}
+function changeDirection(event) {
+  const keyPressed = event.keyCode;
+  console.log(keyPressed);
+  const LEFT = 37;
+  const UP = 38;
+  const RIGHT = 39;
+  const DOWN = 40;
+
+  const goingLEFT = xVelocity == -UNIT_SIZE;
+  const goingUP = yVelocity == -UNIT_SIZE;
+  const goingRIGHT = xVelocity == UNIT_SIZE;
+  const goingDOWN = yVelocity == UNIT_SIZE;
+
+  switch (true) {
+    case keyPressed == LEFT && !goingRIGHT:
+      xVelocity = -UNIT_SIZE;
+      yVelocity = 0;
+      break;
+    case keyPressed == UP && !goingDOWN:
+      xVelocity = 0;
+      yVelocity = -UNIT_SIZE;
+      break;
+    case keyPressed == RIGHT && !goingLEFT:
+      xVelocity = UNIT_SIZE;
+      yVelocity = 0;
+      break;
+    case keyPressed == DOWN && !goingUP:
+      xVelocity = 0;
+      yVelocity = UNIT_SIZE;
+      break;
+  }
+}
+
 function checkGameOver() {}
 function displayGameOver() {}
 function resetGame() {}
