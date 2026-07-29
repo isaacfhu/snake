@@ -1,6 +1,6 @@
 const gameBoard = document.querySelector("#game-board");
 const ctx = gameBoard.getContext("2d"); //context
-const scoreText = document.querySelector("#score");
+const scoreText = document.querySelector("#score-text");
 const resetBtn = document.querySelector("#reset-btn");
 const gameWidth = gameBoard.width;
 const gameHeight = gameBoard.height;
@@ -28,12 +28,32 @@ window.addEventListener("keydown", changeDirection);
 resetBtn.addEventListener("click", resetGame);
 
 gameStart();
-createFood();
-drawFood();
 
-function gameStart() {}
-function nextTick() {}
-function clearBoard() {}
+function gameStart() {
+  running = true;
+  scoreText.textContent = score;
+  createFood();
+  drawFood();
+  nextTick();
+}
+function nextTick() {
+  if (running) {
+    setTimeout(() => {
+      clearBoard();
+      drawFood();
+      moveSnake();
+      drawSnake();
+      checkGameOver();
+      nextTick();
+    }, 75);
+  } else {
+    displayGameOver();
+  }
+}
+function clearBoard() {
+  ctx.fillStyle = boardBackground;
+  ctx.fillRect(0, 0, gameWidth, gameHeight);
+}
 function createFood() {
   function randomFood(min, max) {
     const randNum = // numbers divisible by UNIT_SIZE
@@ -48,7 +68,14 @@ function drawFood() {
   ctx.fillRect(foodX, foodY, UNIT_SIZE, UNIT_SIZE);
 }
 function moveSnake() {}
-function drawSnake() {}
+function drawSnake() {
+  ctx.fillStyle = snakeColor;
+  ctx.strokeStyle = snakeBorder;
+  snake.forEach((snakePart) => {
+    ctx.fillRect(snakePart.x, snakePart.y, UNIT_SIZE, UNIT_SIZE);
+    ctx.strokeRect(snakePart.x, snakePart.y, UNIT_SIZE, UNIT_SIZE);
+  });
+}
 function changeDirection() {}
 function checkGameOver() {}
 function displayGameOver() {}
