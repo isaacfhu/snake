@@ -1,3 +1,4 @@
+/** @type {HTMLCanvasElement} */
 const gameBoard = document.querySelector("#game-board");
 const ctx = gameBoard.getContext("2d"); //context
 const scoreText = document.querySelector("#score-text");
@@ -62,7 +63,7 @@ function createFood() {
     return randNum;
   }
   foodX = randomFood(0, gameWidth - UNIT_SIZE);
-  foodY = randomFood(0, gameWidth - UNIT_SIZE);
+  foodY = randomFood(0, gameHeight - UNIT_SIZE);
 }
 function drawFood() {
   ctx.fillStyle = foodColor;
@@ -124,6 +125,44 @@ function changeDirection(event) {
   }
 }
 
-function checkGameOver() {}
-function displayGameOver() {}
-function resetGame() {}
+function checkGameOver() {
+  switch (true) {
+    case snake[0].x < 0:
+      running = false;
+      break;
+    case snake[0].x >= gameWidth:
+      running = false;
+      break;
+    case snake[0].y < 0:
+      running = false;
+      break;
+    case snake[0].y >= gameHeight:
+      running = false;
+      break;
+  }
+  for (let i = 1; i < snake.length; i += 1) {
+    if (snake[i].x == snake[0].x && snake[i].y == snake[0].y) {
+      running = false;
+    }
+  }
+}
+function displayGameOver() {
+  ctx.font = "50px MV Boli, serif";
+  ctx.fillStyle = "black";
+  ctx.textAlign = "center";
+  ctx.fillText("GAME OVER!", gameWidth / 2, gameHeight / 2);
+  running = false;
+}
+function resetGame() {
+  score = 0;
+  xVelocity = UNIT_SIZE;
+  yVelocity = 0;
+  snake = [
+    { x: UNIT_SIZE * 4, y: 0 },
+    { x: UNIT_SIZE * 3, y: 0 },
+    { x: UNIT_SIZE * 2, y: 0 },
+    { x: UNIT_SIZE, y: 0 },
+    { x: 0, y: 0 },
+  ];
+  gameStart();
+}
