@@ -103,38 +103,47 @@ function drawSnake() {
 }
 
 function changeDirection(event) {
-  const keyPressed = event.keyCode;
-  console.log(keyPressed);
-  const R_KEY = 82;
-
-  const LEFT = 37;
-  const UP = 38;
-  const RIGHT = 39;
-  const DOWN = 40;
+  code = event.code;
 
   const goingLEFT = xVelocity == -UNIT_SIZE;
   const goingUP = yVelocity == -UNIT_SIZE;
   const goingRIGHT = xVelocity == UNIT_SIZE;
   const goingDOWN = yVelocity == UNIT_SIZE;
 
-  switch (true) {
-    case keyPressed == LEFT && !goingRIGHT:
-      xVelocity = -UNIT_SIZE;
-      yVelocity = 0;
+  switch (code) {
+    case "ArrowLeft":
+    case "KeyA":
+      if (!goingRIGHT) {
+        xVelocity = -UNIT_SIZE;
+        yVelocity = 0;
+      }
       break;
-    case keyPressed == UP && !goingDOWN:
-      xVelocity = 0;
-      yVelocity = -UNIT_SIZE;
+
+    case "ArrowUp":
+    case "KeyW":
+      if (!goingDOWN) {
+        xVelocity = 0;
+        yVelocity = -UNIT_SIZE;
+      }
       break;
-    case keyPressed == RIGHT && !goingLEFT:
-      xVelocity = UNIT_SIZE;
-      yVelocity = 0;
+
+    case "ArrowRight":
+    case "KeyD":
+      if (!goingLEFT) {
+        xVelocity = UNIT_SIZE;
+        yVelocity = 0;
+      }
       break;
-    case keyPressed == DOWN && !goingUP:
-      xVelocity = 0;
-      yVelocity = UNIT_SIZE;
+
+    case "ArrowDown":
+    case "KeyS":
+      if (!goingUP) {
+        xVelocity = 0;
+        yVelocity = UNIT_SIZE;
+      }
       break;
-    case keyPressed == R_KEY:
+
+    case "KeyR":
       resetGame();
       break;
   }
