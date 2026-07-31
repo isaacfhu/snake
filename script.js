@@ -101,9 +101,12 @@ function drawSnake() {
     ctx.strokeRect(snakePart.x, snakePart.y, UNIT_SIZE, UNIT_SIZE);
   });
 }
+
 function changeDirection(event) {
   const keyPressed = event.keyCode;
   console.log(keyPressed);
+  const R_KEY = 82;
+
   const LEFT = 37;
   const UP = 38;
   const RIGHT = 39;
@@ -131,6 +134,9 @@ function changeDirection(event) {
       xVelocity = 0;
       yVelocity = UNIT_SIZE;
       break;
+    case keyPressed == R_KEY:
+      resetGame();
+      break;
   }
 }
 
@@ -155,6 +161,7 @@ function checkGameOver() {
     }
   }
 }
+
 function displayGameOver() {
   ctx.font = "50px MV Boli, serif";
   ctx.fillStyle = "black";
