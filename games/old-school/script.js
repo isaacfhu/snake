@@ -11,7 +11,7 @@ const snakeColor = "lightgreen";
 const snakeBorder = "black";
 const foodColor = "red";
 const UNIT_SIZE = 25; //px
-const SPEED = 75;
+const SPEED = 500;
 
 let running = false;
 let tickTimeout;
