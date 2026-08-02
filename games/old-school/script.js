@@ -11,7 +11,9 @@ const snakeColor = "lightgreen";
 const snakeBorder = "black";
 const foodColor = "red";
 const UNIT_SIZE = 25; //px
-const SPEED = 500;
+const SPEED = 75;
+
+const startY = Math.floor(gameHeight / 2 / UNIT_SIZE) * UNIT_SIZE;
 
 let running = false;
 let tickTimeout;
@@ -21,18 +23,12 @@ let foodX;
 let foodY;
 let score = 0;
 let highscore = 0;
-let snake = [
-  { x: UNIT_SIZE * 4, y: 0 },
-  { x: UNIT_SIZE * 3, y: 0 },
-  { x: UNIT_SIZE * 2, y: 0 },
-  { x: UNIT_SIZE, y: 0 },
-  { x: 0, y: 0 },
-];
+let snake;
 
 window.addEventListener("keydown", changeDirection);
 resetBtn.addEventListener("click", resetGame);
 
-gameStart();
+displayGameStart();
 
 function gameStart() {
   running = true;
@@ -110,6 +106,8 @@ function changeDirection(event) {
   const goingRIGHT = xVelocity == UNIT_SIZE;
   const goingDOWN = yVelocity == UNIT_SIZE;
 
+  if (!running) resetGame();
+
   switch (code) {
     case "ArrowLeft":
     case "KeyA":
@@ -170,7 +168,13 @@ function checkGameOver() {
     }
   }
 }
-
+function displayGameStart() {
+  ctx.font = "50px MV Boli, serif";
+  ctx.fillStyle = "black";
+  ctx.textAlign = "center";
+  ctx.fillText("Press Any Key To Start!", gameWidth / 2, gameHeight / 2);
+  running = false;
+}
 function displayGameOver() {
   ctx.font = "50px MV Boli, serif";
   ctx.fillStyle = "black";
@@ -184,11 +188,11 @@ function resetGame() {
   xVelocity = UNIT_SIZE;
   yVelocity = 0;
   snake = [
-    { x: UNIT_SIZE * 4, y: 0 },
-    { x: UNIT_SIZE * 3, y: 0 },
-    { x: UNIT_SIZE * 2, y: 0 },
-    { x: UNIT_SIZE, y: 0 },
-    { x: 0, y: 0 },
+    { x: UNIT_SIZE * 4, y: startY },
+    { x: UNIT_SIZE * 3, y: startY },
+    { x: UNIT_SIZE * 2, y: startY },
+    { x: UNIT_SIZE, y: startY },
+    { x: 0, y: startY },
   ];
   gameStart();
 }
