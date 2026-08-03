@@ -82,6 +82,8 @@ function moveSnake() {
     if (score > highscore) {
       highscore = score;
       highscoreText.textContent = `High-score: ${highscore}`;
+
+      localStorage.setItem("snake_old_school_highscore", highscore);
     }
 
     createFood();
